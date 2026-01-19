@@ -65,8 +65,10 @@ module VirtualCategory
       return topics.where(category_id: @category.id) if allowed_ids.empty?
 
       topics.joins(tag_join_sql).where(
-        "topics.category_id = :category_id OR "
-          "(topic_tags.id IS NOT NULL AND topics.category_id IN (:allowed_ids))",
+        <<~SQL,
+          topics.category_id = :category_id OR
+          (topic_tags.id IS NOT NULL AND topics.category_id IN (:allowed_ids))
+        SQL
         category_id: @category.id,
         allowed_ids: allowed_ids
       )
