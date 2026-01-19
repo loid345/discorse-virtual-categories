@@ -74,7 +74,9 @@ export default class VirtualCategorySettings extends Component {
               checked={{this.isVirtualEnabled}}
               {{on "change" this.handleVirtualToggle}}
             />
-            <span class="label-text">{{i18n "virtual_category.enable_label"}}</span>
+            <span class="label-text">{{i18n
+                "virtual_category.enable_label"
+              }}</span>
           </label>
           <p class="field-description">
             {{i18n "virtual_category.enable_description"}}

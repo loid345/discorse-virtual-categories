@@ -29,7 +29,9 @@ export default class VirtualCategoryRules extends Component {
   }
 
   get selectedTags() {
-    return parseVirtualCategoryList(this.category?.custom_fields?.virtual_tag_names);
+    return parseVirtualCategoryList(
+      this.category?.custom_fields?.virtual_tag_names
+    );
   }
 
   get selectedTagGroups() {
@@ -43,7 +45,9 @@ export default class VirtualCategoryRules extends Component {
     if (!term) {
       return this.tagGroups;
     }
-    return this.tagGroups.filter((group) => group.name.toLowerCase().includes(term));
+    return this.tagGroups.filter((group) =>
+      group.name.toLowerCase().includes(term)
+    );
   }
 
   get maxTags() {
@@ -147,7 +151,9 @@ export default class VirtualCategoryRules extends Component {
             class="virtual-category-search-input"
             type="text"
             value={{this.search}}
-            placeholder={{i18n "virtual_category.tag_groups_search_placeholder"}}
+            placeholder={{i18n
+              "virtual_category.tag_groups_search_placeholder"
+            }}
             {{on "input" this.handleSearch}}
           />
 
@@ -187,11 +193,7 @@ export default class VirtualCategoryRules extends Component {
           >
             {{i18n "virtual_category.save_rules"}}
           </button>
-          <button
-            type="button"
-            class="btn btn-flat"
-            {{on "click" @closeModal}}
-          >
+          <button type="button" class="btn btn-flat" {{on "click" @closeModal}}>
             {{i18n "virtual_category.cancel_rules"}}
           </button>
         </div>

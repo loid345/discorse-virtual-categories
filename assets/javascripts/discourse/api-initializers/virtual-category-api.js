@@ -32,7 +32,9 @@ export default apiInitializer("1.14.0", (api) => {
 
     get virtualTagNames() {
       if (this.virtual_tag_names) {
-        return Array.isArray(this.virtual_tag_names) ? this.virtual_tag_names : [];
+        return Array.isArray(this.virtual_tag_names)
+          ? this.virtual_tag_names
+          : [];
       }
 
       return parseVirtualCategoryList(this.custom_fields?.virtual_tag_names);
@@ -45,7 +47,9 @@ export default apiInitializer("1.14.0", (api) => {
           : [];
       }
 
-      return parseVirtualCategoryList(this.custom_fields?.virtual_tag_group_names);
+      return parseVirtualCategoryList(
+        this.custom_fields?.virtual_tag_group_names
+      );
     },
   });
 });
