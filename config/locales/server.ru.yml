@@ -1,0 +1,5 @@
+ru:
+  site_settings:
+    virtual_category_enabled: "Включить виртуальные категории"
+    virtual_category_max_tags: "Максимум тегов для виртуальной категории"
+    virtual_category_max_tag_groups: "Максимум групп тегов для виртуальной категории"

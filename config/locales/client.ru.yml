@@ -1,0 +1,14 @@
+ru:
+  js:
+    virtual_category:
+      title: "Виртуальная категория"
+      enable_label: "Это виртуальная категория"
+      enable_description: "Виртуальные категории показывают темы из других категорий по правилам тегов."
+      configure_rules: "Настроить правила"
+      tags_title: "Теги"
+      tags_description: "Выберите теги для агрегации тем из любых категорий."
+      tag_groups_title: "Группы тегов"
+      tag_groups_description: "Выберите группы тегов для агрегации всех тегов внутри групп."
+      tag_groups_search_placeholder: "Поиск групп тегов..."
+      tag_groups_empty: "Группы тегов не найдены."
+      rules_saved: "Правила обновлены."

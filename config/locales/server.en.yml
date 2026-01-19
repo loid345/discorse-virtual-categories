@@ -1,1 +1,5 @@
 en:
+  site_settings:
+    virtual_category_enabled: "Enable virtual categories"
+    virtual_category_max_tags: "Maximum tags per virtual category"
+    virtual_category_max_tag_groups: "Maximum tag groups per virtual category"

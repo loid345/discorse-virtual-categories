@@ -1,9 +1,14 @@
 en:
-  admin_js:
-    admin:
-      site_settings:
-        categories:
-          TODO_plugin_name: "Plugin Name"
   js:
-    discourse_plugin_name:
-      placeholder: placeholder
+    virtual_category:
+      title: "Virtual category"
+      enable_label: "This is a virtual category"
+      enable_description: "Virtual categories can display topics from other categories based on tag rules."
+      configure_rules: "Configure rules"
+      tags_title: "Tags"
+      tags_description: "Select tags to aggregate topics from any category."
+      tag_groups_title: "Tag groups"
+      tag_groups_description: "Select tag groups to aggregate all tags within those groups."
+      tag_groups_search_placeholder: "Search tag groups..."
+      tag_groups_empty: "No tag groups found."
+      rules_saved: "Rules updated."
