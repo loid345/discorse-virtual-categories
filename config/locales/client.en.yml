@@ -12,3 +12,5 @@ en:
       tag_groups_search_placeholder: "Search tag groups..."
       tag_groups_empty: "No tag groups found."
       rules_saved: "Rules updated."
+      save_rules: "Save rules"
+      cancel_rules: "Cancel"

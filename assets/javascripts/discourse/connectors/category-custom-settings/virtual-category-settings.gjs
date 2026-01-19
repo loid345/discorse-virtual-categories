@@ -5,6 +5,7 @@ import { on } from "@ember/modifier";
 import i18n from "discourse-common/helpers/i18n";
 import icon from "discourse-common/helpers/d-icon";
 import { showModal } from "discourse/lib/show-modal";
+import { parseVirtualCategoryList } from "discourse/lib/virtual-category-utils";
 
 export default class VirtualCategorySettings extends Component {
   @service siteSettings;
@@ -23,31 +24,15 @@ export default class VirtualCategorySettings extends Component {
   }
 
   get selectedTags() {
-    const raw = this.category?.custom_fields?.virtual_tag_names;
-    if (!raw) {
-      return [];
-    }
-    if (Array.isArray(raw)) {
-      return raw;
-    }
-    if (typeof raw === "string") {
-      return raw.split("|").filter(Boolean);
-    }
-    return [];
+    return parseVirtualCategoryList(
+      this.category?.custom_fields?.virtual_tag_names
+    );
   }
 
   get selectedTagGroups() {
-    const raw = this.category?.custom_fields?.virtual_tag_group_names;
-    if (!raw) {
-      return [];
-    }
-    if (Array.isArray(raw)) {
-      return raw;
-    }
-    if (typeof raw === "string") {
-      return raw.split("|").filter(Boolean);
-    }
-    return [];
+    return parseVirtualCategoryList(
+      this.category?.custom_fields?.virtual_tag_group_names
+    );
   }
 
   @action
@@ -89,7 +74,9 @@ export default class VirtualCategorySettings extends Component {
               checked={{this.isVirtualEnabled}}
               {{on "change" this.handleVirtualToggle}}
             />
-            <span class="label-text">{{i18n "virtual_category.enable_label"}}</span>
+            <span class="label-text">{{i18n
+                "virtual_category.enable_label"
+              }}</span>
           </label>
           <p class="field-description">
             {{i18n "virtual_category.enable_description"}}

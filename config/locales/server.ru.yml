@@ -3,3 +3,7 @@ ru:
     virtual_category_enabled: "Включить виртуальные категории"
     virtual_category_max_tags: "Максимум тегов для виртуальной категории"
     virtual_category_max_tag_groups: "Максимум групп тегов для виртуальной категории"
+  virtual_category:
+    errors:
+      max_tags: "Выбрано слишком много тегов (максимум %{count})."
+      max_tag_groups: "Выбрано слишком много групп тегов (максимум %{count})."
