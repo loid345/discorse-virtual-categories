@@ -65,6 +65,10 @@ export default class VirtualCategoryRules extends Component {
     };
   }
 
+  get saveDisabled() {
+    return !this.hasChanges;
+  }
+
   async loadTagGroups() {
     try {
       const response = await ajax("/tag_groups.json");
@@ -195,7 +199,7 @@ export default class VirtualCategoryRules extends Component {
           <button
             type="button"
             class="btn btn-primary"
-            disabled={{not this.hasChanges}}
+            disabled={{this.saveDisabled}}
             {{on "click" this.saveRules}}
           >
             {{i18n "virtual_category.save_rules"}}
