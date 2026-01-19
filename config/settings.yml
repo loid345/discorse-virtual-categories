@@ -1,4 +1,11 @@
-TODO_plugin_name:
-  plugin_name_enabled:
-    default: false
+virtual_category:
+  virtual_category_enabled:
+    default: true
     client: true
+    description: "Enable virtual category aggregation by tags."
+  virtual_category_max_tags:
+    default: 10
+    min: 1
+    max: 50
+    client: true
+    description: "Maximum number of tags allowed per virtual category."

@@ -3,7 +3,12 @@ en:
     admin:
       site_settings:
         categories:
-          TODO_plugin_name: "Plugin Name"
+          virtual_category: "Virtual Category"
   js:
-    discourse_plugin_name:
-      placeholder: placeholder
+    virtual_category:
+      title: "Virtual Category Settings"
+      is_virtual_label: "Enable Tag Aggregation (Mixed Mode)"
+      is_virtual_description: "When enabled, this category will display its own topics plus topics from other categories that match the selected tags."
+      tags_label: "Aggregation Tags"
+      tags_description: "Select tags. Topics with these tags will be pulled into this category list, respecting user permissions."
+      no_tags: "No tags selected."
