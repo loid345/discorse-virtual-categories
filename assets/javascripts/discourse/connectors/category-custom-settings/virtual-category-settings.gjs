@@ -62,9 +62,6 @@ export default class VirtualCategorySettings extends Component {
 
     if (isEnabled) {
       this.openRulesModal();
-    } else {
-      this.category.set("custom_fields.virtual_tag_names", "");
-      this.category.set("custom_fields.virtual_tag_group_names", "");
     }
   }
 
