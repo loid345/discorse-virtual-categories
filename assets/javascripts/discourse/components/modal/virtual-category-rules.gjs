@@ -58,6 +58,13 @@ export default class VirtualCategoryRules extends Component {
     return this.siteSettings.virtual_category_max_tag_groups || 20;
   }
 
+  get tagChooserOptions() {
+    return {
+      allowAny: false,
+      maximum: this.maxTags,
+    };
+  }
+
   async loadTagGroups() {
     try {
       const response = await ajax("/tag_groups.json");
@@ -132,7 +139,7 @@ export default class VirtualCategoryRules extends Component {
           <TagChooser
             @tags={{this.selectedTags}}
             @onChange={{this.handleTagsChange}}
-            @options={{hash allowAny=false maximum=this.maxTags}}
+            @options={{this.tagChooserOptions}}
             class="virtual-tags-chooser"
           />
         </section>
