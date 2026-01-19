@@ -15,6 +15,10 @@ module ::VirtualCategory
   PLUGIN_NAME = "discourse-virtual-categories"
 end
 
+module ::MyPluginModule
+  PLUGIN_NAME = VirtualCategory::PLUGIN_NAME
+end
+
 require_relative "lib/virtual_category/engine"
 
 after_initialize do
