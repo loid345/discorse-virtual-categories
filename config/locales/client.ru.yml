@@ -12,3 +12,5 @@ ru:
       tag_groups_search_placeholder: "Поиск групп тегов..."
       tag_groups_empty: "Группы тегов не найдены."
       rules_saved: "Правила обновлены."
+      save_rules: "Сохранить правила"
+      cancel_rules: "Отмена"

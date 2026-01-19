@@ -4,13 +4,13 @@ virtual_category:
     client: true
     description: "Enable virtual category functionality"
   virtual_category_max_tags:
-    default: 20
+    default: 10
     min: 1
     max: 100
     client: true
     description: "Maximum tags allowed per virtual category"
   virtual_category_max_tag_groups:
-    default: 20
+    default: 10
     min: 1
     max: 100
     client: true

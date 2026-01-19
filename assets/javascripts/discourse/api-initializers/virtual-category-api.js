@@ -1,4 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
+import { parseVirtualCategoryList } from "discourse/lib/virtual-category-utils";
 
 export default apiInitializer("1.14.0", (api) => {
   const siteSettings = api.container.lookup("service:site-settings");
@@ -34,17 +35,7 @@ export default apiInitializer("1.14.0", (api) => {
         return Array.isArray(this.virtual_tag_names) ? this.virtual_tag_names : [];
       }
 
-      const tags = this.custom_fields?.virtual_tag_names;
-      if (!tags) {
-        return [];
-      }
-      if (Array.isArray(tags)) {
-        return tags;
-      }
-      if (typeof tags === "string") {
-        return tags.split("|").filter(Boolean);
-      }
-      return [];
+      return parseVirtualCategoryList(this.custom_fields?.virtual_tag_names);
     },
 
     get virtualTagGroupNames() {
@@ -54,17 +45,7 @@ export default apiInitializer("1.14.0", (api) => {
           : [];
       }
 
-      const groups = this.custom_fields?.virtual_tag_group_names;
-      if (!groups) {
-        return [];
-      }
-      if (Array.isArray(groups)) {
-        return groups;
-      }
-      if (typeof groups === "string") {
-        return groups.split("|").filter(Boolean);
-      }
-      return [];
+      return parseVirtualCategoryList(this.custom_fields?.virtual_tag_group_names);
     },
   });
 });

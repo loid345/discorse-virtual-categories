@@ -7,13 +7,17 @@ import DModal from "discourse/components/d-modal";
 import i18n from "discourse-common/helpers/i18n";
 import TagChooser from "select-kit/components/tag-chooser";
 import { ajax } from "discourse/lib/ajax";
+import { popupAjaxError } from "discourse/lib/ajax-error";
+import { parseVirtualCategoryList } from "discourse/lib/virtual-category-utils";
 
 export default class VirtualCategoryRules extends Component {
+  @service dialog;
   @service siteSettings;
 
   @tracked tagGroups = [];
   @tracked isLoading = true;
   @tracked search = "";
+  @tracked hasChanges = false;
 
   constructor() {
     super(...arguments);
@@ -25,25 +29,13 @@ export default class VirtualCategoryRules extends Component {
   }
 
   get selectedTags() {
-    const raw = this.category?.custom_fields?.virtual_tag_names;
-    if (!raw) {
-      return [];
-    }
-    if (Array.isArray(raw)) {
-      return raw;
-    }
-    return raw.split("|").filter(Boolean);
+    return parseVirtualCategoryList(this.category?.custom_fields?.virtual_tag_names);
   }
 
   get selectedTagGroups() {
-    const raw = this.category?.custom_fields?.virtual_tag_group_names;
-    if (!raw) {
-      return [];
-    }
-    if (Array.isArray(raw)) {
-      return raw;
-    }
-    return raw.split("|").filter(Boolean);
+    return parseVirtualCategoryList(
+      this.category?.custom_fields?.virtual_tag_group_names
+    );
   }
 
   get filteredTagGroups() {
@@ -66,7 +58,8 @@ export default class VirtualCategoryRules extends Component {
     try {
       const response = await ajax("/tag_groups.json");
       this.tagGroups = response?.tag_groups || [];
-    } catch {
+    } catch (error) {
+      popupAjaxError(error);
       this.tagGroups = [];
     } finally {
       this.isLoading = false;
@@ -76,6 +69,7 @@ export default class VirtualCategoryRules extends Component {
   @action
   handleTagsChange(tags) {
     this.category.set("custom_fields.virtual_tag_names", tags.join("|"));
+    this.hasChanges = true;
   }
 
   @action
@@ -100,6 +94,19 @@ export default class VirtualCategoryRules extends Component {
       "custom_fields.virtual_tag_group_names",
       Array.from(selected).join("|")
     );
+    this.hasChanges = true;
+  }
+
+  @action
+  async saveRules() {
+    try {
+      await this.category.save();
+      this.hasChanges = false;
+      this.args.closeModal?.();
+      this.dialog.alert(i18n("virtual_category.rules_saved"));
+    } catch (error) {
+      popupAjaxError(error);
+    }
   }
 
   <template>
@@ -109,7 +116,12 @@ export default class VirtualCategoryRules extends Component {
     >
       <div class="virtual-category-modal">
         <section class="virtual-category-modal-section">
-          <h3>{{i18n "virtual_category.tags_title"}}</h3>
+          <h3>
+            {{i18n "virtual_category.tags_title"}}
+            <span class="virtual-category-count">
+              ({{this.selectedTags.length}}/{{this.maxTags}})
+            </span>
+          </h3>
           <p class="field-description">
             {{i18n "virtual_category.tags_description"}}
           </p>
@@ -122,7 +134,12 @@ export default class VirtualCategoryRules extends Component {
         </section>
 
         <section class="virtual-category-modal-section">
-          <h3>{{i18n "virtual_category.tag_groups_title"}}</h3>
+          <h3>
+            {{i18n "virtual_category.tag_groups_title"}}
+            <span class="virtual-category-count">
+              ({{this.selectedTagGroups.length}}/{{this.maxTagGroups}})
+            </span>
+          </h3>
           <p class="field-description">
             {{i18n "virtual_category.tag_groups_description"}}
           </p>
@@ -160,6 +177,24 @@ export default class VirtualCategoryRules extends Component {
             {{/if}}
           {{/if}}
         </section>
+
+        <div class="virtual-category-modal-actions">
+          <button
+            type="button"
+            class="btn btn-primary"
+            disabled={{not this.hasChanges}}
+            {{on "click" this.saveRules}}
+          >
+            {{i18n "virtual_category.save_rules"}}
+          </button>
+          <button
+            type="button"
+            class="btn btn-flat"
+            {{on "click" @closeModal}}
+          >
+            {{i18n "virtual_category.cancel_rules"}}
+          </button>
+        </div>
       </div>
     </DModal>
   </template>

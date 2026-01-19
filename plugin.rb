@@ -60,13 +60,33 @@ after_initialize do
   end
 
   add_to_class(:category, :virtual_tag_ids) do
-    tag_ids = Tag.where(name: virtual_tag_names_array).pluck(:id)
-    group_tag_ids = TagGroup
-      .joins(:tag_group_tags)
-      .where(name: virtual_tag_group_names_array)
-      .pluck("tag_group_tags.tag_id")
+    @virtual_tag_ids ||= begin
+      tag_ids = Tag.where(name: virtual_tag_names_array).pluck(:id)
+      group_tag_ids = TagGroup
+        .joins(:tag_group_tags)
+        .where(name: virtual_tag_group_names_array)
+        .pluck("tag_group_tags.tag_id")
 
-    (tag_ids + group_tag_ids).uniq
+      (tag_ids + group_tag_ids).uniq
+    end
+  end
+
+  add_model_callback(:category, :before_validation) do
+    next unless virtual_category?
+
+    max_tags = SiteSetting.virtual_category_max_tags
+    max_tag_groups = SiteSetting.virtual_category_max_tag_groups
+
+    if virtual_tag_names_array.size > max_tags
+      errors.add(:base, I18n.t("virtual_category.errors.max_tags", count: max_tags))
+    end
+
+    if virtual_tag_group_names_array.size > max_tag_groups
+      errors.add(
+        :base,
+        I18n.t("virtual_category.errors.max_tag_groups", count: max_tag_groups)
+      )
+    end
   end
 
   require_relative "lib/virtual_category/topic_query_extension"

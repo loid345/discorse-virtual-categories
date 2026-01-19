@@ -73,9 +73,14 @@ module VirtualCategory
     end
 
     def tag_join_sql
-      tag_ids_sql = @tag_ids.map(&:to_i).join(",")
-      "LEFT JOIN topic_tags ON topic_tags.topic_id = topics.id " \
-        "AND topic_tags.tag_id IN (#{tag_ids_sql})"
+      @tag_join_sql ||= ActiveRecord::Base.send(
+        :sanitize_sql_array,
+        [
+          "LEFT JOIN topic_tags ON topic_tags.topic_id = topics.id " \
+            "AND topic_tags.tag_id IN (?)",
+          @tag_ids
+        ]
+      )
     end
 
     def accessible_category_ids
