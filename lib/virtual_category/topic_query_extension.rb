@@ -15,7 +15,7 @@ module VirtualCategory
           topics: topics,
           category: category,
           tag_ids: tag_ids,
-          guardian: @guardian
+          guardian: @guardian,
         ).apply
       end
     end
@@ -56,7 +56,7 @@ module VirtualCategory
     def apply_admin_filter(topics)
       topics.joins(tag_join_sql).where(
         "topics.category_id = :category_id OR topic_tags.id IS NOT NULL",
-        category_id: @category.id
+        category_id: @category.id,
       )
     end
 
@@ -70,7 +70,7 @@ module VirtualCategory
           (topic_tags.id IS NOT NULL AND topics.category_id IN (:allowed_ids))
         SQL
         category_id: @category.id,
-        allowed_ids: allowed_ids
+        allowed_ids: allowed_ids,
       )
     end
 
@@ -80,22 +80,18 @@ module VirtualCategory
         [
           "LEFT JOIN topic_tags ON topic_tags.topic_id = topics.id " \
             "AND topic_tags.tag_id IN (?)",
-          @tag_ids
-        ]
+          @tag_ids,
+        ],
       )
     end
 
     def accessible_category_ids
       @accessible_category_ids ||= begin
-        if @guardian.is_staff?
-          public_ids = Category.where(read_restricted: false).pluck(:id)
-          secured_ids = Category.secured(@guardian).pluck(:id)
-          (public_ids + secured_ids).uniq
-        elsif @guardian.user
-          Category.secured(@guardian).pluck(:id)
-        else
-          Category.where(read_restricted: false).pluck(:id)
-        end
+        public_ids = Category.where(read_restricted: false).pluck(:id)
+        return public_ids unless @guardian.user
+
+        secured_ids = Category.secured(@guardian).pluck(:id)
+        (public_ids + secured_ids).uniq
       end
     end
 

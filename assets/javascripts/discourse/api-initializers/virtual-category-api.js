@@ -1,5 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
-import { parseVirtualCategoryList } from "discourse/lib/virtual-category-utils";
+import { parseVirtualCategoryList } from "discourse/plugins/discorse-virtual-categories/discourse/lib/virtual-category-utils";
 
 export default apiInitializer("1.14.0", (api) => {
   const siteSettings = api.container.lookup("service:site-settings");

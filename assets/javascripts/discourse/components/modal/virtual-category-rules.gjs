@@ -8,7 +8,7 @@ import i18n from "discourse-common/helpers/i18n";
 import TagChooser from "select-kit/components/tag-chooser";
 import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
-import { parseVirtualCategoryList } from "discourse/lib/virtual-category-utils";
+import { parseVirtualCategoryList } from "discourse/plugins/discorse-virtual-categories/discourse/lib/virtual-category-utils";
 
 export default class VirtualCategoryRules extends Component {
   @service dialog;

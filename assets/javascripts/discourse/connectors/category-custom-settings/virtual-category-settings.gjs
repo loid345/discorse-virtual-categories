@@ -5,7 +5,7 @@ import { on } from "@ember/modifier";
 import i18n from "discourse-common/helpers/i18n";
 import icon from "discourse-common/helpers/d-icon";
 import { showModal } from "discourse/lib/show-modal";
-import { parseVirtualCategoryList } from "discourse/lib/virtual-category-utils";
+import { parseVirtualCategoryList } from "discourse/plugins/discorse-virtual-categories/discourse/lib/virtual-category-utils";
 
 export default class VirtualCategorySettings extends Component {
   @service siteSettings;
