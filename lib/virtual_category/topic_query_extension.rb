@@ -87,15 +87,11 @@ module VirtualCategory
 
     def accessible_category_ids
       @accessible_category_ids ||= begin
-        if @guardian.is_staff?
-          public_ids = Category.where(read_restricted: false).pluck(:id)
-          secured_ids = Category.secured(@guardian).pluck(:id)
-          (public_ids + secured_ids).uniq
-        elsif @guardian.user
-          Category.secured(@guardian).pluck(:id)
-        else
-          Category.where(read_restricted: false).pluck(:id)
-        end
+        public_ids = Category.where(read_restricted: false).pluck(:id)
+        return public_ids unless @guardian.user
+
+        secured_ids = Category.secured(@guardian).pluck(:id)
+        (public_ids + secured_ids).uniq
       end
     end
 
