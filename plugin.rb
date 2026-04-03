@@ -84,7 +84,7 @@ after_initialize do
     if virtual_tag_group_names_array.size > max_tag_groups
       errors.add(
         :base,
-        I18n.t("virtual_category.errors.max_tag_groups", count: max_tag_groups)
+        I18n.t("virtual_category.errors.max_tag_groups", count: max_tag_groups),
       )
     end
   end
